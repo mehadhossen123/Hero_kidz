@@ -13,6 +13,6 @@ export const  getSingleProduct=async(id)=>{
     }
     const query={_id:new ObjectId(id)}
     const singleProduct=await connect(collections.PRODUCTS).findOne(query)
-    return singleProduct;
+    return{ ...singleProduct,_id:singleProduct._id.toString()};
 
 }

@@ -1,5 +1,7 @@
 // import Image from "next/image";
 import { getSingleProduct } from "@/actions/server/product";
+import CartButton from "@/components/button/CartButton/CartButton";
+import Image from "next/image";
 
 import {
   FaStar,
@@ -7,6 +9,48 @@ import {
   FaCheckCircle,
   FaQuestionCircle,
 } from "react-icons/fa";
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  // আপনার ডাটাবেস থেকে প্রোডাক্টের ডেটা ফেচ করা হচ্ছে
+  const product = await getSingleProduct(id);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+    };
+  }
+
+  return {
+    title: product.bangla || product.title, // ডাটাবেস থেকে আসা নাম
+    description: product.description
+      ? product.description.slice(0, 160)
+      : "প্রোডাক্টটি সম্পর্কে বিস্তারিত জানুন।",
+    openGraph: {
+      title: `${product.bangla || product.title} | Buy Now`,
+      description: product.description
+        ? product.description.slice(0, 160)
+        : "বিস্তারিত দেখুন আমাদের ওয়েবসাইটে।",
+      url: `https://yourdomain.com/product/${id}`,
+      images: [
+        {
+          url: product.image || "https://ibb.co.com/NdvGwdmy",
+          width: 1200,
+          height: 630,
+          alt: product.title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description: product.description?.slice(0, 160),
+      images: [product.image],
+    },
+  };
+}
 
 const ProductDetails = async({ params }) => {
      const {id}=await params;
@@ -25,7 +69,7 @@ const ProductDetails = async({ params }) => {
             fill
             className="object-contain p-4"
           /> */}
-          <img src={product.image} alt="product image" alt="" />
+          <Image src={product.image} width={500} height={500} alt="product image"  />
           {product?.discount > 0 && (
             <div className="absolute top-4 left-4 badge badge-secondary p-4 font-bold">
               {product.discount}% OFF
@@ -78,9 +122,7 @@ const ProductDetails = async({ params }) => {
             ))}
           </div>
 
-          <button className="btn btn-primary btn-lg w-full md:w-auto text-white gap-2 px-10">
-            <FaShoppingCart /> Add to Shopping Cart
-          </button>
+         <CartButton product={product}></CartButton>
         </div>
       </div>
 
