@@ -72,7 +72,7 @@ export  const deleteItemFromCart=async(id)=>{
     if(!id.length==24){
         return {success:false}
     }
-    const query={_id:new ObjectId(id)}
+    const query = { _id: new ObjectId(id), email: user?.email };
     const result=await cartCollection.deleteOne(query)
    
      return { success: Boolean(result.deletedCount) };
@@ -86,7 +86,7 @@ export const quantityIncreaseDb=async(id,quantity)=>{
      if (quantity>10) {
        return { success: false,message:"you can't buy 10 more product at a time " };
      }
-     const query = { _id: new ObjectId(id) };
+      const query = { _id: new ObjectId(id), email: user?.email };
       const updatedQuantity = {
         $inc: {
           quantity: 1
@@ -106,7 +106,7 @@ export const quantityDecreaseDb=async(id,quantity)=>{
      if (quantity<=1) {
        return { success: false,message:"Quantity can't be empty " };
      }
-     const query = { _id: new ObjectId(id) };
+     const query = { _id: new ObjectId(id) ,email:user?.email};
       const updatedQuantity = {
         $inc: {
           quantity:- 1
