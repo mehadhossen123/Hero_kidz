@@ -24,7 +24,7 @@ const LoginPage = () => {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: " wrong password or email !",
+      text: " wrong password or email/try google login  !",
      
     });
    }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaStar, FaShoppingCart, FaEye } from "react-icons/fa";
 import { CgDetailsMore } from "react-icons/cg";
+import CartButton from "../button/CartButton/CartButton";
 const ProductCard = ({ product }) => {
     const defaultImage =
       "https://i.ibb.co.com/p6Q0fchX/81a72-DDFc-KL-AC-SL1500.jpg";
@@ -62,9 +63,7 @@ const ProductCard = ({ product }) => {
 
         {/* Actions */}
         <div className="card-actions pt-2">
-          <button className="btn btn-primary btn-sm flex-1 text-white gap-2">
-            <FaShoppingCart /> Add to Cart
-          </button>
+          <CartButton product={{...product,_id:product._id.toString()}}></CartButton>
           <Link href={`/product/${product._id}`}>
             <button className="btn btn-primary btn-sm flex-1 text-white gap-2">
               <CgDetailsMore /> View Details

@@ -1,9 +1,8 @@
-import {  Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NextAuthProvider from "@/provider/NextAuthProvider";
-
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "500", "600", "800"],
@@ -70,8 +69,7 @@ export default function RootLayout({ children }) {
           <header className="md:w-11/12 mx-auto my-2 ">
             <Navbar></Navbar>
           </header>
-          <main className="md:w-11/12 mx-auto my-2 min-h-[calc(100vh-235px)]">
-            {" "}
+          <main className="md:w-11/12 mx-auto my-2 min-h-[calc(100vh-235px)]"> 
             {children}
           </main>
           <footer>

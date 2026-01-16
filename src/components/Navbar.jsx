@@ -51,7 +51,7 @@ const Navbar = () => {
             <ul className="menu menu-horizontal px-1">{nav}</ul>
           </div>
           <div className="navbar-end space-x-4">
-            <Link href={""} >
+            <Link href={"/cart"} >
               <IoCartOutline className='btn btn-primary ' />
             </Link>
             <AuthButton></AuthButton>
