@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        {/* ✅ Client Provider body এর ভিতরে */}
+     
         <NextAuthProvider>
           <header className="md:w-11/12 mx-auto my-2">
             <Navbar />
