@@ -1,11 +1,13 @@
 "use client";
 
-import { deleteItemFromCart, quantityIncreaseDb } from "@/actions/server/cart";
+import { deleteItemFromCart, quantityDecreaseDb, quantityIncreaseDb } from "@/actions/server/cart";
 import Image from "next/image";
+import { useState } from "react";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const CartPageItem = ({ item, removeItem, updateQuantity }) => {
+  const [isLoading,setIsLoading]=useState(false)
   const { title, image, price, quantity, _id } = item;
   const handleDeleteItem = async () => {
     Swal.fire({
@@ -37,11 +39,22 @@ const CartPageItem = ({ item, removeItem, updateQuantity }) => {
     });
   };
   const onIncrease=async()=>{
+    setIsLoading(true)
     const result=await quantityIncreaseDb(_id,quantity)
     if(result.success){
       Swal.fire('success','increased','success')
-      updateQuantity(_id, quantity);
+      updateQuantity(_id, quantity+1);
     }
+    setIsLoading(false)
+  }
+  const onDecrease=async()=>{
+    setIsLoading(true)
+    const result=await quantityDecreaseDb(_id,quantity)
+    if(result.success){
+      Swal.fire('success','decreased','success')
+      updateQuantity(_id, quantity-1);
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -64,7 +77,8 @@ const CartPageItem = ({ item, removeItem, updateQuantity }) => {
         {/* Quantity Controls */}
         <div className="flex items-center gap-3 mt-2">
           <button
-            //  onClick={onDecrease}
+             onClick={onDecrease}
+             disabled={quantity==1|| isLoading}
             className="btn btn-sm btn-outline"
           >
             <FaMinus />
@@ -74,6 +88,7 @@ const CartPageItem = ({ item, removeItem, updateQuantity }) => {
 
           <button
              onClick={onIncrease}
+             disabled={quantity==10 || isLoading}
             className="btn btn-sm btn-outline"
           >
             <FaPlus />

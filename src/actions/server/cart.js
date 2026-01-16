@@ -98,3 +98,34 @@ export const quantityIncreaseDb=async(id,quantity)=>{
      return { success: Boolean(result.modifiedCount) };
 
 }
+export const quantityDecreaseDb=async(id,quantity)=>{
+     const { user } = (await getServerSession(authOptions)) || {};
+     if (!user) {
+       return [];
+     }
+     if (quantity<=1) {
+       return { success: false,message:"Quantity can't be empty " };
+     }
+     const query = { _id: new ObjectId(id) };
+      const updatedQuantity = {
+        $inc: {
+          quantity:- 1
+        },
+      };
+     
+     const result = await cartCollection.updateOne(query,updatedQuantity);
+
+     return { success: Boolean(result.modifiedCount) };
+
+}
+
+ 
+export const clearCart = async () => {
+  const { user } = (await getServerSession(authOptions)) || {};
+  if (!user) {
+    return [];
+  }
+  const query = { email: user?.email };
+  const cart = await cartCollection.deleteMany(query);
+  return cart;
+};
